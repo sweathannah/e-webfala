@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView
 from .models import Course, Video, Lesson
 from .form import (
     CourseTitleForm,
@@ -18,6 +19,14 @@ def instructor_dashboard(request):
         instructor=request.user
     )  # Adjust this to fit your model
     return render(request, "instructur_dashboard.html", {"courses": courses})
+
+class CourseListView(ListView):
+    model = Course
+    template_name = 'course_list.html'
+    context_object_name = 'courses'  # Name for the context data to use in the template
+
+
+
 
 
 # def course_create_title(request):
@@ -112,6 +121,7 @@ def instructor_dashboard(request):
 #     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
+
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
@@ -122,3 +132,4 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(instructor=self.request.user)
+

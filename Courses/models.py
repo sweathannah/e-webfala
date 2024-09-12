@@ -14,6 +14,7 @@ class Course(models.Model):
     price = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00, blank=True, null=True
     )
+    
     created_at = models.DateTimeField(auto_now_add=True)
     cover_video = models.FileField(upload_to="course_videos/", blank=True, null=True)
     cover_photo = models.ImageField(upload_to="course_covers/", blank=True, null=True)
