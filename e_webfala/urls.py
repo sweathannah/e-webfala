@@ -36,9 +36,9 @@ urlpatterns = [
     path("api/logout/", LogoutView.as_view(), name="rest_logout"),
     path("api/user/", UserDetailsView.as_view(), name="rest_user_details"),
     path("admin/", admin.site.urls),
-    path("", include("home.urls")),
+    path("", include("home.urls"), name="home"),
     path("payments/", include("payments.urls")),
-    path("courses/", include("Courses.urls"), name="courses"),
+    path("", include("Courses.urls"), name="courses"),
     path("__reload__/", include("django_browser_reload.urls")),
     path("api/", include(router.urls)),
 ]

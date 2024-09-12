@@ -189,7 +189,7 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Redirect URL after login
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/home"
 
 # Redirect URL after signup
 ACCOUNT_SIGNUP_REDIRECT_URL = "/"
