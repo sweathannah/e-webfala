@@ -1,9 +1,6 @@
 from django.shortcuts import render
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
 
 # Create your views here.
-
 def custom_login_view(request):
     error_message = None
     if request.method == 'POST':

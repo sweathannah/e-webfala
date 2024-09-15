@@ -5,12 +5,12 @@ from django.conf import settings
 
 
 class Course(models.Model):
-    instructor = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-    ) 
+    instructor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    category = models.CharField(max_length=255, blank=True)  # create category model and assign relation
+    category = models.CharField(
+        max_length=255, blank=True
+    )  # create category model and assign relation
     price = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00, blank=True, null=True
     )

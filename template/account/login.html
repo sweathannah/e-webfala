@@ -12,11 +12,11 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form method="POST" action="#" class="space-y-4">
+        <form method="POST" action="{% url 'account_login' %}" class="space-y-4">
             {% csrf_token %}
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" name="email" required class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                <input type="email" name="login" required class="mt-1 block w-full p-2 border border-gray-300 rounded">
             </div>
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
@@ -25,8 +25,8 @@
             </div>
             <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
         </form>
-        {% if error_message %}
-        <p class="text-red-500 text-sm mt-4">{{ error_message }}</p>
+        {% if form.errors %}
+        <p class="text-red-500 text-sm mt-4">{{ form.errors }}</p>
         {% endif %}
         <p class="text-sm text-center mt-4">
             Don't have an account?
