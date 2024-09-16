@@ -1,33 +1,46 @@
-"""
-URL configuration for e_webfala project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import permissions
+from rest_framework.routers import DefaultRouter
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from dj_rest_auth.registration.views import RegisterView
+from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
+
+
+router = DefaultRouter()
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Udemy Clone API",
+        default_version="v1",
+        description="API documentation for the Udemy clone",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('home.urls')),
-    path('payments/', include('payments.urls')),
-
-    path('courses/', include('Courses.urls')),
-
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path("", include("allauth.urls")),
+    path("api/register/", RegisterView.as_view(), name="rest_register"),
+    path("api/login/", LoginView.as_view(), name="rest_login"),
+    path("api/logout/", LogoutView.as_view(), name="rest_logout"),
+    path("api/user/", UserDetailsView.as_view(), name="rest_user_details"),
+    path("admin/", admin.site.urls),
+    path("", include("home.urls"), name="home"),
+    path("payments/", include("payments.urls")),
+    path("", include("Courses.urls"), name="courses"),
     path("__reload__/", include("django_browser_reload.urls")),
-    path("accounts/", include("Accounts.urls")),
+    path("api/", include(router.urls)),
 ]
 
 # Add this section to serve media files during development

@@ -1,41 +1,48 @@
 {% extends 'base.html' %}
-
-{% block title %}Home - Udemy Clone{% endblock %}
-
+{% load static %}
+{% block title %} Home - E-webfala {% endblock %}
 {% block content %}
 <div class="flex flex-col md:flex-row bg-primary p-8 rounded-lg">
   <div class="md:w-1/3 mb-6 md:mb-0">
-    <img src="https://placehold.co/400x300" alt="A high-quality image of a person watching an online course on their laptop, with the course material displayed on the screen in a clear and engaging way, showing the user interface of the online learning platform" class="w-full h-auto object-cover rounded-lg" width="400" height="300">
+    <img src="{% static 'heroimg.jpeg' %}"
+      alt="A high-quality image of a person watching an online course on their laptop, with the course material displayed on the screen in a clear and engaging way, showing the user interface of the online learning platform"
+      class="w-full h-auto object-cover rounded-lg" width="400" height="300" />
   </div>
   <div class="md:w-2/3 md:pl-8">
-    <h2 class="text-3xl font-bold text-secondary mb-4">Learn from the Best Online Courses</h2>
-    <p class="text-lg text-accent mb-6">Unlock your potential with our comprehensive online courses. Explore a wide range of topics taught by industry experts and gain valuable skills to advance your career or pursue your passions.</p>
-    <a href="#" class="bg-accent text-primary py-3 px-6 rounded-lg text-lg font-semibold hover:bg-secondary transition-colors duration-300">Browse Courses</a>
+    <h2 class="text-3xl font-bold text-secondary mb-4">
+      Learn from the Best Online Courses
+    </h2>
+    <p class="text-lg text-accent mb-6">
+      Unlock your potential with our comprehensive online courses. Explore a
+      wide range of topics taught by industry experts and gain valuable skills
+      to advance your career or pursue your passions.
+    </p>
+    <a href="#"
+      class="bg-accent text-primary py-3 rounded-lg text-lg font-semibold duration-300 underline text-purple-600 hover:text-purple-800 active:text-red-500">Browse
+      Courses</a>
   </div>
 </div>
 
 <div class="bg-white p-8 rounded-lg mt-8">
   <h3 class="text-2xl font-bold text-secondary mb-4">Featured Courses</h3>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    {% for course in courses %}
     <div class="bg-primary p-6 rounded-lg">
-      <img src="https://placehold.co/400x225" alt="A visually appealing image showcasing the key concepts and topics covered in the web development course, such as code snippets, wireframes, and responsive design examples" class="w-full h-auto object-cover rounded-lg mb-4" width="400" height="225">
-      <h4 class="text-xl font-semibold text-secondary mb-2">Web Development Masterclass</h4>
-      <p class="text-accent mb-4">Learn to build modern, responsive websites from scratch using HTML, CSS, and JavaScript.</p>
-      <a href="#" class="text-accent hover:text-secondary transition-colors duration-300">Enroll Now ➔</a>
+      <img src="{{ course.image_url }}" alt="Course Image" class="w-full h-auto object-cover rounded-lg mb-4"
+        width="400" height="225" />
+      <h4 class="text-xl font-semibold text-secondary mb-2">
+        {{ course.title }}
+      </h4>
+      <p class="text-accent mb-4">
+        {{ course.description }}
+      </p>
+      <p class="text-lg font-bold text-secondary mb-4">₦{{ course.price }}</p> <!-- Price Section -->
+      <a href="{% url 'payments' %}?course_id={{ course.id }}"
+        class="text-accent hover:text-secondary transition-colors duration-300">Enroll Now ➔</a>
     </div>
-    <div class="bg-primary p-6 rounded-lg">
-      <img src="https://placehold.co/400x225" alt="An engaging image depicting various data visualization techniques, such as charts, graphs, and dashboards, to illustrate the content of the data analysis course" class="w-full h-auto object-cover rounded-lg mb-4" width="400" height="225">
-      <h4 class="text-xl font-semibold text-secondary mb-2">Data Analysis with Python</h4>
-      <p class="text-accent mb-4">Master data analysis techniques using Python and popular libraries like NumPy, Pandas, and Matplotlib.</p>
-      <a href="#" class="text-accent hover:text-secondary transition-colors duration-300">Enroll Now ➔</a>
-    </div>
-    <div class="bg-primary p-6 rounded-lg">
-      <img src="https://placehold.co/400x225" alt="A visually compelling image showcasing various design tools and examples of user interfaces, illustrations, and branding elements to represent the graphic design course" class="w-full h-auto object-cover rounded-lg mb-4" width="400" height="225">
-      <h4 class="text-xl font-semibold text-secondary mb-2">Graphic Design Essentials</h4>
-      <p class="text-accent mb-4">Learn the fundamentals of graphic design and create stunning visuals for print and digital media.</p>
-      <a href="#" class="text-accent hover:text-secondary transition-colors duration-300">Enroll Now ➔</a>
-    </div>
+    {% endfor %}
+
   </div>
 </div>
 {% endblock %}
-
