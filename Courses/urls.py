@@ -1,21 +1,17 @@
-from django.urls import include, path
-from .views import instructor_dashboard
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from .views import CourseViewSet, instructor_dashboard, CourseListView
 
-# from .views import CourseViewSet, CourseListView
-from .views import CourseListView, CourseViewSet
-
-
+# Set up the router for the CourseViewSet
 router = DefaultRouter()
-router.register(r'courses', CourseViewSet, basename='course')
-
-
+router.register(r'courses', CourseViewSet, basename='courses')
 
 urlpatterns = [
-    path('list', CourseListView.as_view(), name='course_list'),  # For rendering HTML using CBV
-    path("instructor_dashboard", instructor_dashboard, name="instructor_dashboard"),
-    path("api/courses/", include(router.urls)),
-    path("courses/", CourseListView.as_view(), name="course_list"),
-   
-]
+      # REST API routes
+    path('', include(router.urls)),
 
+    # View-based routes
+    path('dashboard/', instructor_dashboard, name='index'),  # Changed to 'dashboard' for clarity
+    path('courses/list/', CourseListView.as_view(), name='course_list'),
+    path('courses/create-title/', CourseViewSet.as_view({'post': 'create_course_title'}), name='course-create-title'),
+]
