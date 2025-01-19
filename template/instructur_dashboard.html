@@ -33,7 +33,8 @@
             <ul class="list-none p-0">
                 {% for course in courses %}
                 <li class="py-2 border-b border-gray-200">
-                    {{ course.title }} - <a href="{% url 'course_list' %}" class="text-blue-500 hover:underline">View Details</a>
+                    {{ course.title }} - <a href="{% url 'course_detail' course.id %}" class="text-blue-500 hover:underline">View Details</a>
+
                 </li>
                 {% empty %}
                 <li class="py-2 text-gray-600">No courses available yet.</li>
