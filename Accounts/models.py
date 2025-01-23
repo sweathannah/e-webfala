@@ -1,8 +1,9 @@
+import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import BaseUserManager
-
+from django.contrib.auth.models import AbstractBaseUser , PermissionsMixin ,BaseUserManager
 
 class CustomUserManager(BaseUserManager):
     """Custom user manager where email is the unique identifiers for authentication instead of usernames."""
@@ -30,11 +31,21 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class CustomUser(AbstractUser):
+
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+
     email = models.EmailField(unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    first_name = models.CharField( max_length=64, null=True,blank=True)
+    last_name = models.CharField( max_length=64, null=True,blank=True)
+    is_superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_student = models.BooleanField(default=False)
     is_instructor = models.BooleanField(default=False)
-    username = None
+    date_joined = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
