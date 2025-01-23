@@ -11,9 +11,13 @@
     <p>Description: {{ course.description }}</p>
     <p>Category: {{ course.category }}</p>
     <p>Price: ${{ course.price }}</p>
-    <p>Cover image:
-        <img class="w-full h-[1rem] object-cover rounded-lg mb-4" src="{{ course.cover_photo.url }}" alt="">
-    </p>
+    <p>Cover image:</p>
+    {% if course.cover_photo %}
+        <img class="w-full h-[1rem] object-cover rounded-lg mb-4" src="{{ course.cover_photo.url }}" alt="Course Cover Photo">
+    {% else %}
+        <p>No cover image available.</p>
+    {% endif %}
+
 
     <h2>Lessons</h2>
 {% for lesson in lessons %}

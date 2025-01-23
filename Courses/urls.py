@@ -1,13 +1,23 @@
-from django.urls import path
-from .views import course_list, course_create_title, course_create_category, course_create_price, course_review,instructor_dashboard,upload_lesson,course_detail
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+from .views import CourseViewSet, instructor_dashboard, CourseListView, course_detail
+
+# Set up the router for the CourseViewSet
+router = DefaultRouter()
+router.register(r'courses', CourseViewSet, basename='courses')
 
 urlpatterns = [
-    path('instructor_dashboard', instructor_dashboard, name='instructor_dashboard'),
-    path('add_title', course_create_title, name='course_create_title'),
-    path('add_category', course_create_category, name='course_create_category'),
-    path('add_price', course_create_price, name='course_create_price'),
-    path('add_lessons', upload_lesson, name='course_create_lessons'),
-    path('review_course', course_review, name='course_review'),
-    path('', course_list, name='course_list'),  # URL for course list
-    path('course/<int:course_id>/', course_detail, name='course_detail'),
+    # REST API routes
+    path('api/', include(router.urls)),  # Change this to '/api/courses' or another prefix
+
+    # View-based routes
+    path('dashboard/', instructor_dashboard, name='index'),
+    path('courses/<int:course_id>/', course_detail, name='course_detail'),
+    path('courses/list/', CourseListView.as_view(), name='course_list'),  # This will render the list page
+    path('courses/create-title/', CourseViewSet.as_view({'post': 'create_course_title'}), name='course-create-title'),
 ]
+
+if settings.DEBUG:
+  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
