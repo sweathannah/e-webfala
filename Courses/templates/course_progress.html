@@ -1,0 +1,22 @@
+<h2>{{ enrollment.course.title }}</h2>
+<p>Overall Progress: {{ progress_percentage }}%</p>
+<div
+  style="width: 100%; background-color: #eee; height: 20px; border-radius: 10px"
+>
+  <div
+    style="width: {{ progress }}%; background-color: #4caf50; height: 100%; border-radius: 10px;"
+  ></div>
+</div>
+
+<h3>Course Sections</h3>
+<ul>
+  {% for section in progress %}
+  <li>
+    {{ section.section.title }} - {% if section.completed %}
+    <span style="color: green">Completed</span>
+    {% else %}
+    <span style="color: red">Incomplete</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>

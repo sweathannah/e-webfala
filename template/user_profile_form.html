@@ -1,0 +1,66 @@
+{% extends 'extra_base.html' %}
+
+{% block title %}User Profile Form - E-webfala{% endblock %}
+
+{% block content %}
+
+<div class="flex space-x-8 text-lg justify-center font-semibold mb-4">
+    <a href="{% url 'user_profile_form' %}" class="text-gray-700 hover:underline {% if request.path == '/accounts/profile_form/' %}underline{% endif %}">Student</a>
+    <a href="{% url 'instructor_profile_form' %}" class="text-gray-700 hover:underline {% if request.path == '/accounts/instructor_profile_form/' %}underline{% endif %}">Instructor</a>
+</div>
+
+<div class=" max-w-3xl m-auto rounded-md p-4 shadow-lg bg-white">
+    <h2 class="text-2xl font-semibold text-gray-700 text-center mb-6">Profile</h2>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'user_profile_form' %}" class="gap-8 flex justify-center items-center">
+        {% csrf_token %}
+        <div class="block m-auto w-fit space-y-4">
+            {% if form.instance.profile_pic %}
+            <div class="">
+                <img src="{{ form.instance.profile_pic.url }}" alt="Profile Picture" class="w-48 h-48 rounded-full object-cover border-4 border-gray-300">
+            </div>
+            {% endif %}
+            <input type="file" name="profile_pic" id="id_profile_pic" class="mt-2 p-2 border rounded-md text-sm" value="{{ form.profile_pic.value }}">
+
+            <div class="flex items-center gap-2">
+                <label for="id_profile_pic" class="block text-md font-medium text-gray-700">Profile picture</label> 
+                -
+                <p class="text-md font-medium text-gray-700">Save to view!</p>
+            </div>
+        </div>
+
+        <div class="w-[30rem] space-y-4">
+            <div>
+                <label for="id_first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input type="text" name="first_name" id="id_first_name" class="w-full border rounded-md p-2" value="{{ form.first_name.value }}" required>
+            </div>
+            <div>
+                <label for="id_last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <input type="text" name="last_name" id="id_last_name" class="w-full border rounded-md p-2" value="{{ form.last_name.value }}" required>
+            </div>
+            <div>
+                <label for="id_bio" class="block text-sm font-medium text-gray-700">Bio</label>
+                <textarea name="bio" id="id_bio" rows="4" class="w-full border rounded-md p-2" required>{{ form.bio.value }}</textarea>
+            </div>
+
+        {% if form.non_field_errors %}
+            <div class="text-red-500 text-sm mt-1">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="text-red-500 text-sm mt-1">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+            <button type="submit" class="bg-gray-700 hover:bg-gray-800 text-white text-sm p-2 block w-full rounded-md">Save</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

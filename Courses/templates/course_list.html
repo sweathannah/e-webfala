@@ -22,8 +22,28 @@
 
             <!-- Course Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <form method="GET">
+                    <div>
+                        <label for="category">Category</label>
+                        <select name="category" id="category">
+                            <option value="">All Categories</option>
+                            {% for category in categories %}
+                            <option value="{{ category.category_name }}"
+                            {% if request.GET.category=category.category_name %}selected{% endif %}>
+                        {{} category.category_name }
+                            </option>
+                            {% endf%}
+                        </select>
+                    </div>
+                </form>
                 {% for course in courses %}
                 <div class="bg-primary p-6 rounded-lg ">
+                    <li>
+                        <h2>{{ course.title }}</h2>
+                        <p>Category: {{ course.category_name }}</p>
+                        <p>Price: {{ course.price }}</p>
+                        <p>Instructor: {{ course.instructor}}</p>
+                    </li>
                     <!-- Course Image/Video -->
                     {% if course.cover_photo %}
                     <img class="w-full h-[1rem] object-cover rounded-lg mb-4" src="{{ course.cover_photo.url }}" alt="">

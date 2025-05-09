@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: e-webfala
+    env: python
+    plan: starter
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: |
+      gunicorn e_webfala.wsgi:application --bind 0.0.0.0:8000
+    postDeployCommand: |
+      python manage.py migrate --noinput

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+        li:nth-child(odd) {
+            background-color: #e9ecef;
+        }
+        .no-categories {
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Categories and Courses</h1>
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <h2>{{ category.category_name }}</h2>
+                    <ul>
+                        {% for course in category.courses.all %}
+                            <li>{{ course.title }}</li>
+                        {% empty %}
+                            <li class="no-courses">No courses found for this category.</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% empty %}
+                <li class="no-categories">No categories found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

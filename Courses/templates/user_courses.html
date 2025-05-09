@@ -1,0 +1,52 @@
+<h2>Your Courses</h2>
+
+{% for data in courses_data %}
+  <div class="course">
+    <h3>{{ data.course.title }}</h3>
+    
+    <div class="course-details">
+      <!-- Course Image -->
+      {% if data.course.cover_photo %}
+        <img src="{{ data.course.cover_photo.url }}" alt="Course Image" style="max-width: 300px; border-radius: 10px;">
+      {% else %}
+        <p>No course image available.</p>
+      {% endif %}
+      
+      <!-- Course Description -->
+      <p>{{ data.course.description }}</p>
+
+      <!-- Course Progress -->
+      <p>Progress: {{ data.progress }}%</p>
+
+      <!-- Lessons -->
+      <h4>Lessons:</h4>
+      <ul>
+        {% for lesson in data.lessons %}
+          <li>{{ lesson.title }}</li>
+        {% endfor %}
+      </ul>
+
+      <!-- Videos -->
+      <h4>Videos:</h4>
+      {% if data.videos %}
+        <div class="videos">
+          {% for video in data.videos %}
+            <div class="video">
+              <h5>{{ video.title }}</h5>
+              <video width="320" height="240" controls>
+                <source src="{{ video.video_file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No videos available for this course.</p>
+      {% endif %}
+      
+      <!-- Link to Progress Page -->
+      <a href="{% url 'course_progress' data.course.id %}">View Detailed Progress</a>
+    </div>
+    <hr>
+  </div>
+{% endfor %}

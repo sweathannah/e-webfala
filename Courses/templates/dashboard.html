@@ -1,0 +1,30 @@
+<h2>Your Courses</h2>
+<ul>
+  {% for enrollment in enrollments %}
+    <li>
+      <h3>{{ enrollment.course.title }}</h3>
+      <img src="{{ enrollment.course.cover_photo.url }}" alt="Course Image" style="max-width: 300px; border-radius: 10px;">
+
+      <!-- Videos -->
+      <h4>Videos:</h4>
+      {% if data.videos %}
+        <div class="videos">
+          {% for video in enrollment.course.videos %}
+            <div class="video">
+              <h5>{{ video.title }}</h5>
+              <video width="320" height="240" controls>
+                <source src="{{ video.video_file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No videos available for this course.</p>
+      {% endif %}
+
+      <p>Progress: {{ enrollment.progress }}%</p>
+      <a href="{% url 'course_progress' enrollment.id %}">View Progress</a>
+    </li>
+  {% endfor %}
+</ul>

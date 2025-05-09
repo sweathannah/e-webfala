@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}User Profile - E-webfala{% endblock %}
+
+{% block content %}
+
+<div class="flex space-x-8 text-lg justify-center font-semibold mb-2">
+    <a href="{% url 'user_profile' %}" class="text-gray-700 hover:underline {% if request.path == '/accounts/user_profile/' %}underline{% endif %}">Student</a>
+    <a href="{% url 'instructor_profile' %}" class="text-gray-700 hover:underline {% if request.path == '/accounts/instructor_profile/' %}underline{% endif %}">Instructor</a>
+</div>
+
+{% if profile %}
+<div class="-center bg-white shadow-md rounded-lg p-2 flex items-center gap-6">
+
+    {% if profile.profile_pic %}
+        <div class="flex items-center justify-center w-48 h-48 border-2 border-gray-300 rounded-full overflow-hidden">
+            <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="w-full h-full object-cover">
+        </div>
+    {% endif %}
+    <div>
+
+        <p class="text-2xl font-bold text-gray-800">{{ profile.first_name }} {{ profile.last_name }}</p>
+        <p class="text-gray-600">Student</p>
+        <p class="mt-2 text-gray-700">{{ profile.bio }}</p>
+    </div>
+
+    <div>
+        {% for course in course %}
+            <p>{{ course.title }}</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div>
+    <h2 class="text-gray-700 text-lg mt-6 font-bold">Courses Registered</h2>
+    <div class="flex flex-wrap bg-white shadow-md rounded-lg p-6 mt-2">
+        {% for course in courses %}
+        <div>
+            <img src="#" alt="Course Cover image" width="400" height="225">
+            <p>{{ course.title }}</p>
+            <p>{{ course.description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+    <p>No profile found for this user.</p>
+{% endif %}
+{% endblock %}
